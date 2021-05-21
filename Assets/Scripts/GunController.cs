@@ -33,6 +33,8 @@ public class GunController : MonoBehaviour
     [SerializeField]
     private GameObject hitEffectPrefab;
 
+    public Gun Gun => currentGun;
+
 
     private void Start()
     {
