@@ -18,9 +18,13 @@ public class PlayerController : MonoBehaviour
     private float jumpForce;
 
     //상태변수
+    private bool isWalk = false;
     private bool isRun = false;
     private bool isCrouch = false;
     private bool isGround = true;
+
+    // 움직임 체크 변수
+    private Vector3 lastPos;
 
     //앉았을때 얼마나 앉을지 결정하는 변수
     [SerializeField]
@@ -45,13 +49,15 @@ public class PlayerController : MonoBehaviour
     private Camera myCamera;
     private Rigidbody rigidbody;
     private GunController gunController;
+    private CrossHair crossHair;
 
     void Start()
     {
         capsuleCollider = GetComponent<CapsuleCollider>();
         rigidbody = GetComponent<Rigidbody>();
-        applySpeed = walkSpeed;
+        crossHair = FindObjectOfType<CrossHair>();
         originPosY = myCamera.transform.localPosition.y;
+        applySpeed = walkSpeed;
         applyCrouchPosY = originPosY;
         gunController = FindObjectOfType<GunController>();
     }
@@ -64,6 +70,7 @@ public class PlayerController : MonoBehaviour
         TryRun();
         TryCrouch();
         Move();
+        MoveCheck();
         CameraRoation();
         CharacterRotation();
     }
@@ -79,6 +86,7 @@ public class PlayerController : MonoBehaviour
     private void Crouch()
     {
         isCrouch = !isCrouch;
+        crossHair.CrouchingAnimation(isCrouch);
         if (isCrouch)
         {
             applySpeed = crouchSpeed;
@@ -119,6 +127,7 @@ public class PlayerController : MonoBehaviour
         //y크기 절반만큼 레이저 발사
         //대각선에서 오차상쇄를 위해 0.1f
         isGround = Physics.Raycast(transform.position, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
+        crossHair.JumpingAnimation(!isGround);
     }
 
     private void Jump()
@@ -146,12 +155,14 @@ public class PlayerController : MonoBehaviour
         gunController.CancelFindSight();
 
         isRun = true;
+        crossHair.RunningAnimation(isRun);
         applySpeed = runSpeed;
     }
 
     private void RunningCancel()
     {
         isRun = false;
+        crossHair.RunningAnimation(isRun);
         applySpeed = walkSpeed;
     }
 
@@ -168,6 +179,21 @@ public class PlayerController : MonoBehaviour
         // (1, 0, 0) + (0, 0, 1) = (1, 0, 1) => (0.5, 0, 0.5)
 
         rigidbody.MovePosition(transform.position + velocity);
+    }
+
+    private void MoveCheck()
+    {
+        if (isRun || isCrouch || !isGround) return;
+        if(Vector3.Distance(lastPos, transform.position) >= 0.01f)
+        {
+            isWalk = true;
+        }
+        else
+        {
+            isWalk = false;
+        }
+        crossHair.WalkingAnimation(isWalk);
+        lastPos = transform.position;
     }
 
     private void CameraRoation()
