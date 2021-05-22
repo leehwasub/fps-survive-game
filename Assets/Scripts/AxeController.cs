@@ -2,9 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandController : CloseWeaponController
+public class AxeController : CloseWeaponController
 {
     public static bool isActivate = false;
+
+    private void Update()
+    {
+        if (isActivate)
+        {
+            TryAttack();
+        }
+    }
+
 
     protected override IEnumerator HitCoroutine()
     {
