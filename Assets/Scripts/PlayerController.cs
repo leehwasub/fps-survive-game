@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
 
     private void TryJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGround == true)
+        if (Input.GetKeyDown(KeyCode.Space) && isGround == true && statusController.CurrentSP > 0)
         {
             Jump();
         }
@@ -141,11 +141,11 @@ public class PlayerController : MonoBehaviour
 
     private void TryRun()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && statusController.CurrentSP > 0)
         {
             Running();
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift) || statusController.CurrentSP <= 0)
         {
             RunningCancel();
         }

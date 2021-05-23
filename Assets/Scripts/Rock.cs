@@ -23,6 +23,13 @@ public class Rock : MonoBehaviour
     [SerializeField]
     private GameObject goEffectPrefabs; // 채굴 이팩트
 
+    [SerializeField]
+    private GameObject goRockItemPrefabs; // 돌맹이 아이템
+
+    //돌멩이 아이템 등장 개수
+    [SerializeField]
+    private int count;
+
     //필요한 사운드 이름
     [SerializeField]
     private string stikeSound;
@@ -42,7 +49,10 @@ public class Rock : MonoBehaviour
     private void Destruction()
     {
         SoundManager.instance.PlaySE(destroySound);
-
+        for(int i = 0; i < count; i++)
+        {
+            Instantiate(goRockItemPrefabs, transform.position, Quaternion.identity);
+        }
         col.enabled = false;
         Destroy(goRock);
 

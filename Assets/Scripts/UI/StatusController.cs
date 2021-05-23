@@ -65,6 +65,8 @@ public class StatusController : MonoBehaviour
 
     private const int HP = 0, DP = 1, SP = 2, HUNGRY = 3, THIRSTY = 4, SATISFY = 5;
 
+    public int CurrentSP => currentSP;
+
     private void Start()
     {
         currentHP = hp;
@@ -151,6 +153,55 @@ public class StatusController : MonoBehaviour
         imageGauge[SATISFY].fillAmount = (float)currentSatisfy / satisfy;
     }
 
+    public void IncreaseHP(int count)
+    {
+        currentHP = Mathf.Min(currentHP + count, hp);
+    }
+
+    public void DecreaseHP(int count)
+    {
+        if(currentDP > 0)
+        {
+            DecreaseDP(count);
+            return;
+        }
+        currentHP = Mathf.Max(currentHP - count, 0);
+        if (currentHP == 0)
+            Debug.Log("캐릭터의 hp가 0이 되었습니다!");
+    }
+
+    public void IncreaseDP(int count)
+    {
+        currentDP = Mathf.Min(currentDP + count, dp);
+    }
+
+    public void DecreaseDP(int count)
+    {
+        currentDP = Mathf.Max(currentDP - count, 0);
+        if (currentDP == 0)
+            Debug.Log("캐릭터의 방어력이 0이 되었습니다!");
+    }
+
+    public void IncreaseHungry(int count)
+    {
+        currentHungry = Mathf.Min(currentHungry + count, hungry);
+    }
+
+    public void DecreaseHungry(int count)
+    {
+        currentHungry = Mathf.Max(currentHungry - count, 0);
+    }
+
+    public void IncreaseThirsty(int count)
+    {
+        currentThirsty = Mathf.Min(currentThirsty + count, thirsty);
+    }
+
+    public void DecreaseThirsty(int count)
+    {
+        currentThirsty = Mathf.Max(currentThirsty - count, 0);
+    }
+
     public void DecreaseStamina(int count)
     {
         spUsed = true;
@@ -165,5 +216,6 @@ public class StatusController : MonoBehaviour
             currentSP = 0;
         }
     }
+
 
 }
