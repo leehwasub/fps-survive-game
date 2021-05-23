@@ -8,7 +8,7 @@ public abstract class CloseWeaponController : MonoBehaviour
 
     // 현재 장착된 CloseWeapon 형 타입 무기
     [SerializeField]
-    private CloseWeapon currentCloseWeapon;
+    protected CloseWeapon currentCloseWeapon;
 
     // 공격중 ??
     protected bool isAttack;
