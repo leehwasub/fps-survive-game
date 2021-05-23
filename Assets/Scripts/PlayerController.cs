@@ -50,12 +50,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rigidbody;
     private GunController gunController;
     private CrossHair crossHair;
+    private StatusController statusController;
 
     void Start()
     {
         capsuleCollider = GetComponent<CapsuleCollider>();
         rigidbody = GetComponent<Rigidbody>();
         crossHair = FindObjectOfType<CrossHair>();
+        statusController = FindObjectOfType<StatusController>();
         originPosY = myCamera.transform.localPosition.y;
         applySpeed = walkSpeed;
         applyCrouchPosY = originPosY;
@@ -133,6 +135,7 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         if (isCrouch) Crouch();
+        statusController.DecreaseStamina(100);
         rigidbody.velocity = transform.up * jumpForce;
     }
 
@@ -153,7 +156,7 @@ public class PlayerController : MonoBehaviour
         if (isCrouch) Crouch();
 
         gunController.CancelFindSight();
-
+        statusController.DecreaseStamina(10);
         isRun = true;
         crossHair.RunningAnimation(isRun);
         applySpeed = runSpeed;
