@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d0c573d580741e46b7bd1fe0ba6f8c0, type: 3}
+  m_Name: Gun1
+  m_EditorClassIdentifier: 
+  itemName: SunMachinegun
+  itemType: 0
+  itemImage: {fileID: 21300000, guid: aee7b991722a1d0489c5eccc5587069b, type: 3}
+  itemPrefab: {fileID: 8837647389990595700, guid: 069fb81f8f6f63040b640fa9dd2a394b,
+    type: 3}
+  weaponType: 
