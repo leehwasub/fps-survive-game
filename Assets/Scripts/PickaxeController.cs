@@ -4,20 +4,12 @@ using UnityEngine;
 
 public class PickaxeController : CloseWeaponController
 {
-    public static bool isActivate = true;
 
     private void Start()
     {
+        isActivate = true;
         WeaponManager.currentWeapon = currentCloseWeapon.GetComponent<Transform>();
         WeaponManager.currentWeaponAnim = currentCloseWeapon.anim;
-    }
-
-    private void Update()
-    {
-        if (isActivate)
-        {
-            TryAttack();
-        }
     }
 
 
@@ -27,7 +19,10 @@ public class PickaxeController : CloseWeaponController
         {
             if (CheckObject())
             {
-                // 충돌 됨
+                if(hitInfo.transform.tag == "Rock")
+                {
+                    hitInfo.transform.GetComponent<Rock>().Mining();
+                }
                 isSwing = false;
                 Debug.Log(hitInfo.transform.name);
             }

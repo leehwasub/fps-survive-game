@@ -4,7 +4,13 @@ using UnityEngine;
 
 public abstract class CloseWeaponController : MonoBehaviour
 {
-    
+    protected bool isActivate = false;
+
+    public bool IsActivate
+    {
+        set => isActivate = value;
+        get => isActivate;
+    }
 
     // 현재 장착된 CloseWeapon 형 타입 무기
     [SerializeField]
@@ -27,6 +33,16 @@ public abstract class CloseWeaponController : MonoBehaviour
             }
         }
     }
+
+    private void Update()
+    {
+        if (isActivate)
+        {
+            TryAttack();
+        }
+    }
+
+
 
     protected IEnumerator AttackCoroutine()
     {

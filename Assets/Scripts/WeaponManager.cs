@@ -121,13 +121,13 @@ public class WeaponManager : MonoBehaviour
                 GunController.isActivate = false;
                 break;
             case "HAND":
-                HandController.isActivate = false;
+                handController.IsActivate = false;
                 break;
             case "AXE":
-                AxeController.isActivate = false;
+                axeController.IsActivate = false;
                 break;
             case "PICKAXE":
-                PickaxeController.isActivate = false;
+                pickaxeController.IsActivate = false;
                 break;
         }
     }

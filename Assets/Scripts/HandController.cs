@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HandController : CloseWeaponController
 {
-    public static bool isActivate = false;
 
     protected override IEnumerator HitCoroutine()
     {
