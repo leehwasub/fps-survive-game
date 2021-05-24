@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Animal : MonoBehaviour
 {
@@ -12,15 +13,13 @@ public class Animal : MonoBehaviour
     protected float walkSpeed;
     [SerializeField]
     protected float runSpeed;
-    [SerializeField]
-    protected float turningSpeed;
-    protected float applySpeed;
 
-    protected Vector3 direction;
+    protected Vector3 destination;
 
     protected bool isAction;
     protected bool isWalking;
     protected bool isRunning;
+    protected bool isChasing;
     protected bool isDead;
 
     [SerializeField]
@@ -39,6 +38,8 @@ public class Animal : MonoBehaviour
     [SerializeField]
     protected BoxCollider boxCol;
     protected AudioSource audio;
+    protected NavMeshAgent nav;
+    protected FieldOfViewAngle viewAngle;
     [SerializeField]
     protected AudioClip[] soundPigNormal;
     [SerializeField]
@@ -48,16 +49,18 @@ public class Animal : MonoBehaviour
 
     private void Start()
     {
+        viewAngle = GetComponent<FieldOfViewAngle>();
+        nav = GetComponent<NavMeshAgent>();
         audio = GetComponent<AudioSource>();
         currentTime = waitTime;
         isAction = true;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (isDead) return;
         Move();
-        Rotation();
+        //Rotation();
         ElapseTime();
     }
 
@@ -65,25 +68,26 @@ public class Animal : MonoBehaviour
     {
         if (isWalking || isRunning)
         {
-            rigid.MovePosition(transform.position + transform.forward * applySpeed * Time.deltaTime);
+            //rigid.MovePosition(transform.position + transform.forward * applySpeed * Time.deltaTime);
+            nav.SetDestination(transform.position + destination * 5f);
         }
     }
 
-    protected void Rotation()
-    {
-        if (isWalking || isRunning)
-        {
-            Vector3 rotation = Vector3.Lerp(transform.eulerAngles, new Vector3(0f, direction.y, 0f), turningSpeed);
-            rigid.MoveRotation(Quaternion.Euler(rotation));
-        }
-    }
+    //protected void Rotation()
+    //{
+    //    if (isWalking || isRunning)
+    //    {
+    //        Vector3 rotation = Vector3.Lerp(transform.eulerAngles, new Vector3(0f, direction.y, 0f), turningSpeed);
+    //        rigid.MoveRotation(Quaternion.Euler(rotation));
+    //    }
+    //}
 
     protected void ElapseTime()
     {
         if (isAction)
         {
             currentTime -= Time.deltaTime;
-            if (currentTime <= 0)
+            if (currentTime <= 0 && !isChasing)
             {
                 ResetBehaviour();
             }
@@ -92,13 +96,14 @@ public class Animal : MonoBehaviour
 
     protected virtual void ResetBehaviour()
     {
-        applySpeed = walkSpeed;
+        nav.speed = walkSpeed;
+        nav.ResetPath();
         isRunning = false;
         isWalking = false;
         isAction = true;
         anim.SetBool("Walking", isWalking);
         anim.SetBool("Running", isRunning);
-        direction.Set(0f, UnityEngine.Random.Range(0f, 360f), 0f);
+        destination.Set(Random.Range(-0.2f, 0.2f), 0f, Random.Range(0.5f, 1f));
     }
   
 
@@ -107,7 +112,7 @@ public class Animal : MonoBehaviour
         isWalking = true;
         anim.SetBool("Walking", isWalking);
         currentTime = walkTime;
-        applySpeed = walkSpeed;
+        nav.speed = walkSpeed;
         Debug.Log("걷기");
     }
 

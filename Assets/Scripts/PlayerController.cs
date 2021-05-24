@@ -52,6 +52,8 @@ public class PlayerController : MonoBehaviour
     private CrossHair crossHair;
     private StatusController statusController;
 
+    public bool IsRun => isRun;
+
     void Start()
     {
         capsuleCollider = GetComponent<CapsuleCollider>();
