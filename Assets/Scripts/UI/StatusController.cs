@@ -121,7 +121,7 @@ public class StatusController : MonoBehaviour
         }
         else
         {
-            Debug.Log("배고픔 수치가 0이 되었습니다.");
+            //Debug.Log("배고픔 수치가 0이 되었습니다.");
         }
     }
 
@@ -139,7 +139,7 @@ public class StatusController : MonoBehaviour
         }
         else
         {
-            Debug.Log("목마름 수치가 0이 되었습니다.");
+            //Debug.Log("목마름 수치가 0이 되었습니다.");
         }
     }
 
@@ -169,6 +169,17 @@ public class StatusController : MonoBehaviour
         if (currentHP == 0)
             Debug.Log("캐릭터의 hp가 0이 되었습니다!");
     }
+
+    public void IncreaseSP(int count)
+    {
+        currentSP = Mathf.Min(currentSP + count, sp);
+    }
+
+    public void DecreaseSP(int count)
+    {
+        currentSP = Mathf.Max(currentSP - count, 0);
+    }
+
 
     public void IncreaseDP(int count)
     {

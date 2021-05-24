@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d0c573d580741e46b7bd1fe0ba6f8c0, type: 3}
-  m_Name: Gun1
+  m_Name: PotionYellow
   m_EditorClassIdentifier: 
-  itemName: SubMachineGun1
-  itemType: 0
-  itemImage: {fileID: 21300000, guid: aee7b991722a1d0489c5eccc5587069b, type: 3}
-  itemPrefab: {fileID: 8837647389990595700, guid: 069fb81f8f6f63040b640fa9dd2a394b,
+  itemName: PotionYellow
+  itemType: 1
+  itemImage: {fileID: 21300000, guid: 8a19eff421e49454eb9cdb7743c79f63, type: 3}
+  itemPrefab: {fileID: 1178570380386224854, guid: 9b7e112372803894c9a901bee346c569,
     type: 3}
-  weaponType: GUN
+  weaponType: 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private bool inventoryActivated;
+    public static bool inventoryActivated;
 
     //필요한 컴포넌트
     [SerializeField]
@@ -15,8 +15,6 @@ public class Inventory : MonoBehaviour
 
     //슬롯들
     private Slot[] slots;
-
-    public bool InventoryActivated => inventoryActivated;
 
 
     void Start()

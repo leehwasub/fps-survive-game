@@ -24,6 +24,7 @@ public abstract class CloseWeaponController : MonoBehaviour
 
     protected void TryAttack()
     {
+        if (Inventory.inventoryActivated) return;
         if (Input.GetButton("Fire1"))
         {
             if (!isAttack)

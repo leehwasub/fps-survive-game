@@ -241,6 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3e8666ceda52634f865e573a6dbb5af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originPos: {x: 0, y: 0, z: 0}
   item: {fileID: 0}
   itemCount: 0
   itemImage: {fileID: 6048150386885011046}
