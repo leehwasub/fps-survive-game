@@ -70,29 +70,7 @@ public class WeaponManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isChangeWeapon)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                //무기 교체 실행 (서브 머신건)
-                StartCoroutine(ChangeWeaponCoroutine("HAND", "맨손"));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                //무기 교체 실행 (맨손)
-                StartCoroutine(ChangeWeaponCoroutine("GUN", "SubMachineGun1"));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                //무기 교체 실행 (도끼)
-                StartCoroutine(ChangeWeaponCoroutine("AXE", "Axe"));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                //무기 교체 실행 (도끼)
-                StartCoroutine(ChangeWeaponCoroutine("PICKAXE", "Pickaxe"));
-            }
-        }
+
     }
 
     public IEnumerator ChangeWeaponCoroutine(string type, string name)
@@ -121,13 +99,17 @@ public class WeaponManager : MonoBehaviour
                 GunController.isActivate = false;
                 break;
             case "HAND":
-                handController.IsActivate = false;
+                HandController.isActivate = false;
+                if(QuickSlotController.goHandItem != null)
+                {
+                    Destroy(QuickSlotController.goHandItem);
+                }
                 break;
             case "AXE":
-                axeController.IsActivate = false;
+                AxeController.isActivate = false;
                 break;
             case "PICKAXE":
-                pickaxeController.IsActivate = false;
+                PickaxeController.isActivate = false;
                 break;
         }
     }

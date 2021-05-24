@@ -28,7 +28,16 @@ public class ItemEffectDatabase : MonoBehaviour
     private WeaponManager weaponManager;
     [SerializeField]
     private SlotToolTip slotToolTip;
+    [SerializeField]
+    private QuickSlotController quickSlotController;
 
+    //quickSlotController 징검다리
+    public void IsActivatedQuickSlot(int num)
+    {
+        quickSlotController.IsActivatedQuickSlot(num);
+    }
+
+    //툴팁 징검다리
     public void ShowToolTip(Item item, Vector3 pos)
     {
         slotToolTip.ShowToolTip(item, pos);

@@ -27,6 +27,9 @@ public class GunController : MonoBehaviour
     //충돌 정보 받아옴
     private RaycastHit hitInfo;
 
+    [SerializeField]
+    private LayerMask layerMask;
+
     //필요한 컴포넌트
     [SerializeField]
     private Camera myCamera;
@@ -53,7 +56,7 @@ public class GunController : MonoBehaviour
         if (isActivate)
         {
             GunFireRateCalc();
-            TryFire();
+            //TryFire();
             TryReload();
             TryFindSight();
         }
@@ -110,7 +113,8 @@ public class GunController : MonoBehaviour
     {
         if(Physics.Raycast(myCamera.transform.position, myCamera.transform.forward +
             new Vector3(UnityEngine.Random.Range(-crossHair.GetAccuracy() - currentGun.accuracy, crossHair.GetAccuracy() + currentGun.accuracy)
-            , UnityEngine.Random.Range(-crossHair.GetAccuracy() - currentGun.accuracy, crossHair.GetAccuracy() + currentGun.accuracy), 0), out hitInfo, currentGun.range))
+            , UnityEngine.Random.Range(-crossHair.GetAccuracy() - currentGun.accuracy, crossHair.GetAccuracy() + currentGun.accuracy), 0), out hitInfo, currentGun.range
+            , layerMask))
         {
             GameObject clone = Instantiate(hitEffectPrefab, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
             Destroy(clone, 2f);
