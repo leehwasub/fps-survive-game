@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d0c573d580741e46b7bd1fe0ba6f8c0, type: 3}
+  m_Name: MeatRaw
+  m_EditorClassIdentifier: 
+  itemName: "\uC0DD\uACE0\uAE30"
+  itemDesc: "\uB3FC\uC9C0\uB97C \uC8FD\uC5EC\uC11C \uB098\uC628 \uC0DD\uACE0\uAE30"
+  itemType: 1
+  itemImage: {fileID: 21300000, guid: 614668316e4cf95478c96e4e8e23990e, type: 3}
+  itemPrefab: {fileID: 2250068147539701660, guid: 868f601c0c2f6ea4cbde4f686f7d2658,
+    type: 3}
+  weaponType: 

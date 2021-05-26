@@ -5,10 +5,16 @@ using UnityEngine.AI;
 
 public class Animal : MonoBehaviour
 {
+    protected StatusController playerStatus;
+
     [SerializeField]
     protected string animalName;
     [SerializeField]
     protected int hp;
+    [SerializeField]
+    private Item itemPrefabs; //아이템 
+    [SerializeField]
+    protected int itemNumber; // 아이템의 획득 개수
     [SerializeField]
     protected float walkSpeed;
     [SerializeField]
@@ -20,6 +26,7 @@ public class Animal : MonoBehaviour
     protected bool isWalking;
     protected bool isRunning;
     protected bool isChasing;
+    protected bool isAttacking;
     protected bool isDead;
 
     [SerializeField]
@@ -47,8 +54,21 @@ public class Animal : MonoBehaviour
     [SerializeField]
     protected AudioClip deadSound;
 
+    public string AnimalName => animalName;
+    public bool IsDead => isDead;
+    public Item getItem
+    {
+        get {
+            gameObject.tag = "Untagged";
+            Destroy(gameObject, 3f);
+            return itemPrefabs;
+        }
+    }
+    public int ItemNumber => itemNumber;
+
     private void Start()
     {
+        playerStatus = FindObjectOfType<StatusController>();
         viewAngle = GetComponent<FieldOfViewAngle>();
         nav = GetComponent<NavMeshAgent>();
         audio = GetComponent<AudioSource>();
@@ -87,7 +107,7 @@ public class Animal : MonoBehaviour
         if (isAction)
         {
             currentTime -= Time.deltaTime;
-            if (currentTime <= 0 && !isChasing)
+            if (currentTime <= 0 && !isChasing && isAttacking)
             {
                 ResetBehaviour();
             }
@@ -135,7 +155,10 @@ public class Animal : MonoBehaviour
         PlaySE(deadSound);
         isWalking = false;
         isRunning = false;
+        isChasing = false;
+        isAttacking = false;
         isDead = true;
+        nav.ResetPath();
         anim.SetTrigger("Dead");
     }
 

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class WeaponSway : MonoBehaviour
 {
+    public static bool isActivated = true;
+
     //기준 위치
     private Vector3 originPos;
     
@@ -34,7 +36,7 @@ public class WeaponSway : MonoBehaviour
 
     private void Update()
     {
-        if (!Inventory.inventoryActivated)
+        if (!Inventory.inventoryActivated && isActivated)
         {
             TrySway();
         }

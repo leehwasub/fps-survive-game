@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static bool isActivated = true;
+
     //스피드 조정 변수
     [SerializeField]
     private float walkSpeed;
@@ -69,17 +71,21 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        IsGround();
-        TryJump();
-        TryRun();
-        TryCrouch();
-        Move();
-        MoveCheck();
-        if (!Inventory.inventoryActivated)
+        if (isActivated)
         {
-            CameraRoation();
-            CharacterRotation();
+            IsGround();
+            TryJump();
+            TryRun();
+            TryCrouch();
+            Move();
+            MoveCheck();
+            if (!Inventory.inventoryActivated)
+            {
+                CameraRoation();
+                CharacterRotation();
+            }
         }
+        
     }
 
     private void TryCrouch()

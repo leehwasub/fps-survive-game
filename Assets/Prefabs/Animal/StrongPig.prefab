@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3854796149982979145}
   m_Layer: 0
   m_Name: StrongPig
-  m_TagString: WeakAnimal
+  m_TagString: StrongAnimal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,6 +91,13 @@ MonoBehaviour:
   soundPigNormal: []
   hurtSound: {fileID: 0}
   deadSound: {fileID: 0}
+  attackDamage: 10
+  attackDelay: 3
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  chaseTime: 4
+  chaseDelayTime: 0.5
 --- !u!82 &3854796149982979147
 AudioSource:
   m_ObjectHideFlags: 0
