@@ -70,7 +70,7 @@ public class CraftManual : MonoBehaviour
     {
         if (isPreviewActivated && goPreview.GetComponent<PreviewObject>().isBulidable())
         {
-            Instantiate(goPrefab, hitInfo.point, Quaternion.identity);
+            Instantiate(goPrefab, goPreview.transform.position, goPreview.transform.rotation);
             Destroy(goPreview);
             isActivated = false;
             isPreviewActivated = false;
@@ -85,8 +85,17 @@ public class CraftManual : MonoBehaviour
         {
             if(hitInfo.transform != null)
             {
-                Vector3 loation = hitInfo.point;
-                goPreview.transform.position = loation;
+                Vector3 location = hitInfo.point;
+                if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    goPreview.transform.Rotate(0, -90f, 0f);
+                }else if (Input.GetKeyDown(KeyCode.E))
+                {
+                    goPreview.transform.Rotate(0, 90f, 0f);
+                }
+
+                location.Set(Mathf.Round(location.x), Mathf.Round(location.y / 0.1f) * 0.1f, Mathf.Round(location.z));
+                goPreview.transform.position = location;
             }
         }
     }
