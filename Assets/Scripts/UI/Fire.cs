@@ -26,6 +26,8 @@ public class Fire : MonoBehaviour
     //상태변수
     private bool isFire = true;
 
+    public bool IsFire => isFire;
+
     private void Start()
     {
         playerStatus = FindObjectOfType<StatusController>();
@@ -67,6 +69,7 @@ public class Fire : MonoBehaviour
         {
             if(currentDamageTime <= 0)
             {
+                other.GetComponent<Burn>().StartBurning();
                 playerStatus.DecreaseHP(damage);
                 currentDamageTime = damageTime;
             }

@@ -9,7 +9,8 @@ public class ActionController : MonoBehaviour
     [SerializeField]
     private float range; //습득 가능한 최대 거리
 
-    private bool pickupActivated; //습득 가능하면 true
+    private bool pickupActivated; //아이템 습득 가능하면 true
+    private bool fireLookActivated; // 불을 근접해서 바라볼 시 true
     private bool dissolveActivated; //고기 해체 가능할 시 true
     private bool isDissolving; //고기 해체 중에는 false
 
@@ -26,6 +27,8 @@ public class ActionController : MonoBehaviour
     private Inventory inventory;
     [SerializeField]
     private WeaponManager weaponManager;
+    [SerializeField]
+    private QuickSlotController quickSlotController;
     [SerializeField]
     private Transform tfMeatDissolveTool; //고기 해체툴
 
@@ -45,6 +48,7 @@ public class ActionController : MonoBehaviour
             CheckAction();
             CanPickUp();
             CanMeat();
+            CanDropFire();
         }
     }
 
@@ -109,6 +113,39 @@ public class ActionController : MonoBehaviour
         }
     }
 
+    private void CanDropFire()
+    {
+        if (fireLookActivated)
+        {
+            if(hitInfo.transform.tag == "Fire" && hitInfo.transform.GetComponent<Fire>().IsFire)
+            {
+                //손에 들고있는 아이템을 불에 넣음 == 선택된 퀵슬롯의 아이템 (Null).itemName
+                Slot selectedSlot = quickSlotController.SelectSlot;
+                if(selectedSlot.item != null)
+                {
+                    DropAnItem(selectedSlot);
+                }
+            }
+        }
+    }
+
+    private void DropAnItem(Slot selectedSlot)
+    {
+        switch (selectedSlot.item.itemType)
+        {
+            case Item.ItemType.Used:
+                if (selectedSlot.item.itemName.Contains("고기"))
+                {
+                    Instantiate(selectedSlot.item.itemPrefab, hitInfo.transform.position + Vector3.up, Quaternion.identity);
+                    quickSlotController.DecreaseSelectedItem();
+                }
+                break;
+            case Item.ItemType.Ingredient:
+                break;
+            default:
+                break;
+        }
+    }
 
     private void CheckAction()
     {
@@ -122,6 +159,10 @@ public class ActionController : MonoBehaviour
             {
                 MeatInfoAppear();
             }
+            else if(hitInfo.transform.tag == "Fire")
+            {
+                FireInfoAppear();
+            }
             else
                 InfoDisappear();
         }
@@ -131,8 +172,27 @@ public class ActionController : MonoBehaviour
         }
     }
 
+    private void FireInfoAppear()
+    {
+        InfoReset();
+        fireLookActivated = true;
+        if (hitInfo.transform.GetComponent<Fire>().IsFire)
+        {
+            actionText.gameObject.SetActive(true);
+            actionText.text = "선택된 아이템 불에 넣기" + "<color=yellow>" + "(E)" + "</color>";
+        }
+    }
+
+    private void InfoReset()
+    {
+        pickupActivated = false;
+        dissolveActivated = false;
+        fireLookActivated = false;
+    }
+
     private void ItemInfoAppear()
     {
+        InfoReset();
         pickupActivated = true;
         actionText.gameObject.SetActive(true);
         actionText.text = hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " 획득 " + "<color=yellow>" + "(E)" + "</color>";
@@ -142,6 +202,7 @@ public class ActionController : MonoBehaviour
     {
         if (hitInfo.transform.GetComponent<Animal>().IsDead)
         {
+            InfoReset();
             dissolveActivated = true;
             actionText.gameObject.SetActive(true);
             actionText.text = hitInfo.transform.GetComponent<Animal>().AnimalName + " 해체하기 " + "<color=yellow>" + "(E)" + "</color>";
@@ -150,6 +211,7 @@ public class ActionController : MonoBehaviour
 
     private void InfoDisappear()
     {
+        fireLookActivated = false;
         dissolveActivated = false;
         pickupActivated = false;
         actionText.gameObject.SetActive(false);

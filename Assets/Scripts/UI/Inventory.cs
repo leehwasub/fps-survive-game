@@ -12,14 +12,23 @@ public class Inventory : MonoBehaviour
     private GameObject goInventoryBase;
     [SerializeField]
     private GameObject goSlotsParent;
+    [SerializeField]
+    private GameObject goQuickSlotParent;
+
+    [SerializeField]
+    private QuickSlotController quickSlot;
 
     //슬롯들
-    private Slot[] slots;
+    private Slot[] slots; // 인벤토리 슬롯들
+    private Slot[] quickSlots; // 퀵 슬롯들
+    private bool isNotPut;
+    private int slotNumber;
 
 
     void Start()
     {
         slots = goSlotsParent.GetComponentsInChildren<Slot>();
+        quickSlots = goQuickSlotParent.GetComponentsInChildren<Slot>();
     }
 
     
@@ -53,13 +62,33 @@ public class Inventory : MonoBehaviour
 
     public void AcquireItem(Item item, int count = 1)
     {
+        PutSlot(quickSlots, item, count);
+        if (!isNotPut)
+        {
+            quickSlot.IsActivatedQuickSlot(slotNumber);
+        }
+
+        if (isNotPut)
+        {
+            PutSlot(slots, item, count);
+        }
+        if (isNotPut)
+        {
+            Debug.Log("모든 아이템공간이 꽉찼습니다");
+        }
+    }
+
+    private void PutSlot(Slot[] slots, Item item, int count)
+    {
         if (Item.ItemType.Equpiment != item.itemType)
         {
             for (int i = 0; i < slots.Length; i++)
             {
                 if (slots[i].item != null && slots[i].item.itemName == item.itemName)
                 {
+                    slotNumber = i;
                     slots[i].SetSlotCount(count);
+                    isNotPut = false;
                     return;
                 }
             }
@@ -69,9 +98,13 @@ public class Inventory : MonoBehaviour
             if (slots[i].item == null)
             {
                 slots[i].AddItem(item, count);
+                isNotPut = false;
                 return;
             }
         }
+
+        isNotPut = true;
     }
+
 
 }
