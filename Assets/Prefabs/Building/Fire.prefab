@@ -4762,6 +4762,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7684667091845353556}
+  - component: {fileID: 1592803129}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -4785,6 +4786,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1592803129
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7684667091845353559}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7684667092337054096
 GameObject:
   m_ObjectHideFlags: 0
@@ -4798,9 +4815,10 @@ GameObject:
   - component: {fileID: 7684667092337054094}
   - component: {fileID: 175367792}
   - component: {fileID: 175367794}
-  m_Layer: 0
+  - component: {fileID: 7684667092163999744}
+  m_Layer: 12
   m_Name: Flame
-  m_TagString: Untagged
+  m_TagString: Fire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9576,10 +9594,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireName: "\uBAA8\uB2E5\uBD88"
-  damage: 10
-  damageTime: 0.3
+  damage: 1
+  damageTime: 0.1
   durationTime: 180
   psFlame: {fileID: 7684667092337054095}
+--- !u!135 &7684667092163999744
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7684667092337054096}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.8
+  m_Center: {x: 0, y: 0, z: -0.6}
 --- !u!1 &7684667092399445527
 GameObject:
   m_ObjectHideFlags: 0
@@ -9649,7 +9680,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a4a30854e7db95e488a83585ca7c9312,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.27192062
+      value: 0.14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a4a30854e7db95e488a83585ca7c9312,
         type: 3}
@@ -9745,7 +9776,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a4a30854e7db95e488a83585ca7c9312,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.091920614
+      value: -0.039999984
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a4a30854e7db95e488a83585ca7c9312,
         type: 3}
@@ -9841,7 +9872,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a4a30854e7db95e488a83585ca7c9312,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.091920614
+      value: -0.039999984
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a4a30854e7db95e488a83585ca7c9312,
         type: 3}
@@ -9937,7 +9968,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a4a30854e7db95e488a83585ca7c9312,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.27192062
+      value: 0.14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a4a30854e7db95e488a83585ca7c9312,
         type: 3}

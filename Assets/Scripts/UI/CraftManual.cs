@@ -68,7 +68,7 @@ public class CraftManual : MonoBehaviour
 
     private void Build()
     {
-        if (isPreviewActivated)
+        if (isPreviewActivated && goPreview.GetComponent<PreviewObject>().isBulidable())
         {
             Instantiate(goPrefab, hitInfo.point, Quaternion.identity);
             Destroy(goPreview);
