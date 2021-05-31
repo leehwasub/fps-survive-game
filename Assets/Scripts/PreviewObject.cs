@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PreviewObject : MonoBehaviour
 {
+    public Building.Type needType;
+    private bool needTypeFlag;
+
     //충돌한 오브젝트의 컬라이더
     private List<Collider> colliderList = new List<Collider>();
 
@@ -30,13 +33,27 @@ public class PreviewObject : MonoBehaviour
 
     private void ChangeColor()
     {
-        if(colliderList.Count > 0)
+        if(needType == Building.Type.Normal)
         {
-            SetColor(red);
+            if (colliderList.Count > 0)
+            {
+                SetColor(red);
+            }
+            else
+            {
+                SetColor(green);
+            }
         }
         else
         {
-            SetColor(green);
+            if (colliderList.Count > 0 || !needTypeFlag)
+            {
+                SetColor(red);
+            }
+            else
+            {
+                SetColor(green);
+            }
         }
     }
 
@@ -55,23 +72,55 @@ public class PreviewObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer != layerGround && other.gameObject.layer != IGNORE_RAYCAST_LAYER)
+        if(other.transform.tag == "Structure")
         {
-            colliderList.Add(other);
+            if(other.GetComponent<Building>().type != needType)
+            {
+                colliderList.Add(other);
+            }
+            else
+            {
+                needTypeFlag = true;
+            }
+        }
+        else
+        {
+            if (other.gameObject.layer != layerGround && other.gameObject.layer != IGNORE_RAYCAST_LAYER)
+            {
+                colliderList.Add(other);
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer != layerGround && other.gameObject.layer != IGNORE_RAYCAST_LAYER)
+        if (other.transform.tag == "Structure")
         {
-            colliderList.Remove(other);
+            if (other.GetComponent<Building>().type != needType)
+            {
+                colliderList.Remove(other);
+            }
+            else
+            {
+                needTypeFlag = false;
+            }
         }
+        else
+        {
+            if (other.gameObject.layer != layerGround && other.gameObject.layer != IGNORE_RAYCAST_LAYER)
+            {
+                colliderList.Remove(other);
+            }
+        }
+        
     }
 
     public bool isBulidable()
     {
-        return (colliderList.Count == 0);
+        if (needType == Building.Type.Normal)
+            return (colliderList.Count == 0);
+        else
+            return colliderList.Count == 0 && needTypeFlag;
     }
 
 }
