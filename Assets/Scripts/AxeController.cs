@@ -21,6 +21,14 @@ public class AxeController : CloseWeaponController
         {
             if (CheckObject())
             {
+                if(hitInfo.transform.tag == "Grass")
+                {
+                    hitInfo.transform.GetComponent<Grass>().Damage();
+                }
+                else if (hitInfo.transform.tag == "Tree")
+                {
+                    hitInfo.transform.GetComponent<Tree>().Chop(hitInfo.point, transform.eulerAngles.y);
+                }
                 // 충돌 됨
                 isSwing = false;
                 Debug.Log(hitInfo.transform.name);

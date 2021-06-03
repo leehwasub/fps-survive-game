@@ -11,6 +11,8 @@ TagManager:
   - StrongAnimal
   - Structure
   - Twig
+  - Grass
+  - Tree
   layers:
   - Default
   - TransparentFX
