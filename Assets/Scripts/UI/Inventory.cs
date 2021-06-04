@@ -106,5 +106,45 @@ public class Inventory : MonoBehaviour
         isNotPut = true;
     }
 
+    public int GetItemCount(string itemName)
+    {
+        int temp = SearchSlotItem(slots, itemName);
+
+        return (temp != 0 ? temp : SearchSlotItem(quickSlots, itemName));
+    }
+
+    private int SearchSlotItem(Slot[] slots, string itemName)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if(slots[i].item != null && itemName == slots[i].item.itemName)
+            {
+                return slots[i].itemCount;
+            }
+        }
+        return 0;
+    }
+
+    public void setItemCount(string itemName, int itemCount)
+    {
+        if(!ItemCountAdjust(slots, itemName, itemCount))
+        {
+            ItemCountAdjust(quickSlots, itemName, itemCount);
+        }
+    }
+
+    private bool ItemCountAdjust(Slot[] slots, string itemName, int itemCount)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if(slots[i].item != null && itemName == slots[i].item.itemName)
+            {
+                slots[i].SetSlotCount(-itemCount);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

@@ -17,6 +17,13 @@ public abstract class CloseWeaponController : MonoBehaviour
     [SerializeField]
     protected LayerMask layerMask;
 
+    private PlayerController playerController;
+
+    private void Start()
+    {
+        playerController = FindObjectOfType<PlayerController>();
+    }
+
     protected void TryAttack()
     {
         if (Inventory.inventoryActivated) return;
@@ -28,6 +35,7 @@ public abstract class CloseWeaponController : MonoBehaviour
                 {
                     if (currentCloseWeapon.isAxe && hitInfo.transform.tag == "Tree")
                     {
+                        StartCoroutine(playerController.TreeLookCoroutine(hitInfo.transform.GetComponent<Tree>().GetTreeCenterPosition()));
                         StartCoroutine(AttackCoroutine("Chop", currentCloseWeapon.workDelayA, currentCloseWeapon.workDelayB, currentCloseWeapon.workDelay));
                         return;
                     }

@@ -467,6 +467,8 @@ MonoBehaviour:
   force: 0.05
   goHitEffect: {fileID: 1909782555532246503, guid: 68191ded18af19547b7be53e578449c1,
     type: 3}
+  itemLeaf: {fileID: 11400000, guid: 4fe4134df7a6eac40afb38b7732adfbc, type: 2}
+  leafCount: 3
   hitSound: TwigHit
 --- !u!1001 &8244100784411632247
 PrefabInstance:

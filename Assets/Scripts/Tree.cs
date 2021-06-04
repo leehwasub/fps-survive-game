@@ -133,4 +133,10 @@ public class Tree : MonoBehaviour
         }
         Destroy(goChildTree.gameObject);
     }
+
+    public Vector3 GetTreeCenterPosition()
+    {
+        return goTreeCenter.transform.position;
+    }
+
 }

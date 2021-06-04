@@ -56,9 +56,15 @@ public class CraftManual : MonoBehaviour
     private Text[] textSlotName;
     [SerializeField]
     private Text[] textSlotDesc;
+    [SerializeField]
+    private Text[] textSlotNeedItem;
+
+    //필요한 컴포넌트
+    private Inventory inventory;
 
     private void Start()
     {
+        inventory = FindObjectOfType<Inventory>();
         tabNumber = 0;
         page = 1;
         TabSlotSetting(craftFire);
@@ -87,6 +93,7 @@ public class CraftManual : MonoBehaviour
             imageSlot[i].sprite = null;
             textSlotDesc[i].text = "";
             textSlotName[i].text = "";
+            textSlotNeedItem[i].text = "";
             goSlots[i].SetActive(false);
         }
     }
@@ -128,6 +135,12 @@ public class CraftManual : MonoBehaviour
             imageSlot[i - startSlotNumber].sprite = craftSelectedTab[i].craftImage;
             textSlotName[i - startSlotNumber].text = craftSelectedTab[i].craftName;
             textSlotDesc[i - startSlotNumber].text = craftSelectedTab[i].craftDesc;
+
+            for (int j = 0; j < craftSelectedTab[i].craftNeedItem.Length; j++)
+            {
+                textSlotNeedItem[i - startSlotNumber].text += craftSelectedTab[i].craftNeedItem[j];
+                textSlotNeedItem[i - startSlotNumber].text += " x " + craftSelectedTab[i].craftNeedItemCount[j] + "\n";
+            }
         }
     }
 
@@ -136,10 +149,22 @@ public class CraftManual : MonoBehaviour
     public void SlotClick(int slotNumber)
     {
         selectedSlotNumber = slotNumber + (page - 1) * goSlots.Length;
+        if (!CheckIngredient()) return;
         goPreview = Instantiate(craftSelectedTab[selectedSlotNumber].goPreviewPrefab, tfPlayer.position + tfPlayer.forward, Quaternion.identity);
         goPrefab = craftSelectedTab[selectedSlotNumber].goPrefab;
         isPreviewActivated = true;
         goBaseUI.SetActive(false);
+    }
+
+    private bool CheckIngredient()
+    {
+        for (int i = 0; i < craftSelectedTab[selectedSlotNumber].craftNeedItem.Length; i++)
+        {
+            if (inventory.GetItemCount(craftSelectedTab[selectedSlotNumber].craftNeedItem[i]) < craftSelectedTab[selectedSlotNumber].craftNeedItemCount[i]){
+                return false;
+            }
+        }
+        return true;
     }
 
     // Update is called once per frame
@@ -169,12 +194,21 @@ public class CraftManual : MonoBehaviour
     {
         if (isPreviewActivated && goPreview.GetComponent<PreviewObject>().isBulidable())
         {
+            UseIngredient();
             Instantiate(goPrefab, goPreview.transform.position, goPreview.transform.rotation);
             Destroy(goPreview);
             isActivated = false;
             isPreviewActivated = false;
             goPreview = null;
             goPrefab = null;
+        }
+    }
+
+    private void UseIngredient()
+    {
+        for (int i = 0; i < craftSelectedTab[selectedSlotNumber].craftNeedItem.Length; i++)
+        {
+            inventory.setItemCount(craftSelectedTab[selectedSlotNumber].craftNeedItem[i], craftSelectedTab[selectedSlotNumber].craftNeedItemCount[i]);
         }
     }
 

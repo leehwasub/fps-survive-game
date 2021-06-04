@@ -54,6 +54,8 @@ public class PlayerController : MonoBehaviour
     private CrossHair crossHair;
     private StatusController statusController;
 
+    private bool pauseCameraRotation = false;
+
     public bool IsRun => isRun;
 
     void Start()
@@ -212,12 +214,34 @@ public class PlayerController : MonoBehaviour
 
     private void CameraRoation()
     {
-        //상하 카메라 회전
-        float xRotation = Input.GetAxisRaw("Mouse Y");
-        float camRotationX = xRotation * lookSensitivity;
-        currentCameraRoationX = Mathf.Clamp(currentCameraRoationX - camRotationX, -cameraRoationLimit, cameraRoationLimit);
+        if (!pauseCameraRotation)
+        {
+            //상하 카메라 회전
+            float xRotation = Input.GetAxisRaw("Mouse Y");
+            float camRotationX = xRotation * lookSensitivity;
+            currentCameraRoationX = Mathf.Clamp(currentCameraRoationX - camRotationX, -cameraRoationLimit, cameraRoationLimit);
 
-        myCamera.transform.localEulerAngles = new Vector3(currentCameraRoationX, 0f, 0f);
+            myCamera.transform.localEulerAngles = new Vector3(currentCameraRoationX, 0f, 0f);
+        }
+    }
+
+    public IEnumerator TreeLookCoroutine(Vector3 target)
+    {
+        pauseCameraRotation = true;
+
+        Quaternion direction = Quaternion.LookRotation(target - myCamera.transform.position);
+        Vector3 eulerValue = direction.eulerAngles;
+        float destinationX = eulerValue.x;
+
+        while(Mathf.Abs(destinationX - currentCameraRoationX) >= 0.5f)
+        {
+            eulerValue = Quaternion.Lerp(myCamera.transform.localRotation, direction, 0.3f).eulerAngles;
+            myCamera.transform.localRotation = Quaternion.Euler(eulerValue.x , 0f, 0f);
+            currentCameraRoationX = myCamera.transform.localEulerAngles.x;
+            yield return null;
+        }
+
+        pauseCameraRotation = false;
     }
 
     private void CharacterRotation()
