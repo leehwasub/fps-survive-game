@@ -13,6 +13,7 @@ public class ActionController : MonoBehaviour
     private bool fireLookActivated; // 불을 근접해서 바라볼 시 true
     private bool dissolveActivated; //고기 해체 가능할 시 true
     private bool isDissolving; //고기 해체 중에는 false
+    private bool lookComputer; //컴퓨터를 바라볼 시 true
 
     private RaycastHit hitInfo; // 충돌체 정보 저장
 
@@ -31,6 +32,8 @@ public class ActionController : MonoBehaviour
     private QuickSlotController quickSlotController;
     [SerializeField]
     private Transform tfMeatDissolveTool; //고기 해체툴
+    [SerializeField]
+    private ComputerKit computer;
 
     [SerializeField]
     private string soundMeat; // 소리 재생
@@ -49,6 +52,22 @@ public class ActionController : MonoBehaviour
             CanPickUp();
             CanMeat();
             CanDropFire();
+            CanComputerPowerOn();
+        }
+    }
+
+    private void CanComputerPowerOn()
+    {
+        if (lookComputer)
+        {
+            if (hitInfo.transform != null)
+            {
+                if (!hitInfo.transform.GetComponent<ComputerKit>().isPowerOn)
+                {
+                    hitInfo.transform.GetComponent<ComputerKit>().PowerOn();
+                    InfoDisappear();
+                }
+            }
         }
     }
 
@@ -163,12 +182,27 @@ public class ActionController : MonoBehaviour
             {
                 FireInfoAppear();
             }
+            else if(hitInfo.transform.tag == "Computer")
+            {
+                ComputerInfoAppear();
+            }
             else
                 InfoDisappear();
         }
         else
         {
             InfoDisappear();
+        }
+    }
+
+    private void ComputerInfoAppear()
+    {
+        if(!hitInfo.transform.GetComponent<ComputerKit>().isPowerOn)
+        {
+            InfoReset();
+            lookComputer = true;
+            actionText.gameObject.SetActive(true);
+            actionText.text = "컴퓨터 가동 " + "<color=yellow>" + "(E)" + "</color>";
         }
     }
 
@@ -214,6 +248,7 @@ public class ActionController : MonoBehaviour
         fireLookActivated = false;
         dissolveActivated = false;
         pickupActivated = false;
+        lookComputer = false;
         actionText.gameObject.SetActive(false);
     }
 
