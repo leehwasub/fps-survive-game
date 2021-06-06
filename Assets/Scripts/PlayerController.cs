@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        if (isActivated)
+        if (isActivated && GameManager.canPlayerMove)
         {
             IsGround();
             TryJump();

@@ -52,6 +52,7 @@ public class Inventory : MonoBehaviour
 
     private void OpenInventory()
     {
+        GameManager.isOpenInventory = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         goInventoryBase.SetActive(true);
@@ -59,6 +60,7 @@ public class Inventory : MonoBehaviour
 
     private void CloseInventory()
     {
+        GameManager.isOpenInventory = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         goInventoryBase.SetActive(false);
@@ -84,7 +86,7 @@ public class Inventory : MonoBehaviour
 
     private void PutSlot(Slot[] slots, Item item, int count)
     {
-        if (Item.ItemType.Equpiment != item.itemType)
+        if (Item.ItemType.Equpiment != item.itemType && Item.ItemType.Kit != item.itemType)
         {
             for (int i = 0; i < slots.Length; i++)
             {

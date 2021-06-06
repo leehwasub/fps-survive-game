@@ -56,6 +56,7 @@ public class ComputerKit : MonoBehaviour
 
     public void PowerOn()
     {
+        GameManager.isOpenRocketComputer = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         isPowerOn = true;
@@ -64,6 +65,7 @@ public class ComputerKit : MonoBehaviour
 
     private void PowerOff()
     {
+        GameManager.isOpenRocketComputer = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         isPowerOn = false;
